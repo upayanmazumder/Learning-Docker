@@ -1,15 +1,18 @@
+# Use the official Node.js image
 FROM node:20
 
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
+# Install app dependencies
 COPY package*.json ./
+RUN npm install --production
 
-RUN npm install
-
+# Bundle app source
 COPY . .
 
-ENV PORT=3000
+# Bind to the specified port
+EXPOSE 5100
 
-EXPOSE 3000
-
-CMD [ "npm", "start" ]
+# Command to run the app
+CMD ["node", "app.js"]
