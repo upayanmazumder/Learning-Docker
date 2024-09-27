@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 5100;
 
 app.get('/', (req, res) => {
-  res.send('Hello from my VPS!');
+  res.send('Hello from my VPS! Did docker');
 });
 
 app.listen(port, () => {
