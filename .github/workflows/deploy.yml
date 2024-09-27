@@ -18,7 +18,23 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Disable SSH Host Key Checking
+      run: |
+        mkdir -p ~/.ssh
+        echo "Host *" >> ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+        echo "  UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+
     - name: Copy files to VPS
       run: |
-        scp -r . root@${{secrets.VPS_IP }}:/home/root/my-nodejs-app
-        ssh root@${{secrets.VPS_IP }} 'cd /home/root/my-nodejs-app && docker build -t my-nodejs-app . && docker stop $(docker ps -q) || true && docker run -d -p 5100:5100 my-nodejs-app'
+        scp -r . root@${{ secrets.VPS_IP }}:/home/root/my-nodejs-app
+
+    - name: Build and Run Docker Container on VPS
+      run: |
+        ssh root@${{ secrets.VPS_IP }} '
+          cd /home/root/my-nodejs-app &&
+          docker build -t my-nodejs-app . &&
+          docker stop $(docker ps -q) || true &&
+          docker rm $(docker ps -a -q) || true &&
+          docker run -d -p 5100:5100 my-nodejs-app
+        '
