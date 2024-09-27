@@ -20,5 +20,5 @@ jobs:
 
     - name: Copy files to VPS
       run: |
-        scp -r . <vps-user>@<vps-ip>:/home/<vps-user>/my-nodejs-app
-        ssh <vps-user>@<vps-ip> 'cd /home/<vps-user>/my-nodejs-app && docker build -t my-nodejs-app . && docker stop $(docker ps -q) || true && docker run -d -p 5100:5100 my-nodejs-app'
+        scp -r . root@${{secrets.VPS_IP }}:/home/root/my-nodejs-app
+        ssh root@${{secrets.VPS_IP }} 'cd /home/root/my-nodejs-app && docker build -t my-nodejs-app . && docker stop $(docker ps -q) || true && docker run -d -p 5100:5100 my-nodejs-app'
