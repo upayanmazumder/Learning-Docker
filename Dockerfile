@@ -12,7 +12,7 @@ RUN npm install --production
 COPY . .
 
 # Bind to the specified port
-EXPOSE 5100
+EXPOSE 3000
 
 # Command to run the app
 CMD ["node", "app.js"]

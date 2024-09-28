@@ -17,15 +17,15 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t your-app-image-name:latest .
+          docker build -t learningdocker:latest .
 
       # Push Docker image to local registry (or external Docker registry like DockerHub)
       - name: Push Docker image
         run: |
-          docker tag your-app-image-name:latest your-docker-repo/your-app-image-name:latest
-          docker push your-docker-repo/your-app-image-name:latest
+          docker tag learningdocker:latest upayanmazumder/learningdocker:latest
+          docker push upayanmazumder/learningdocker:latest
 
       # Deploy to Kubernetes
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/your-deployment-name your-container-name=your-docker-repo/your-app-image-name:latest
+          kubectl set image deployment/your-deployment-name your-container-name=upayanmazumder/learningdocker:latest
