@@ -1,40 +1,31 @@
-name: Deploy to VPS
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger on push to the main branch
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: self-hosted
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t your-app-image-name:latest .
 
-    - name: Disable SSH Host Key Checking
-      run: |
-        mkdir -p ~/.ssh
-        echo "Host *" >> ~/.ssh/config
-        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
-        echo "  UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+      # Push Docker image to local registry (or external Docker registry like DockerHub)
+      - name: Push Docker image
+        run: |
+          docker tag your-app-image-name:latest your-docker-repo/your-app-image-name:latest
+          docker push your-docker-repo/your-app-image-name:latest
 
-    - name: Copy files to VPS
-      run: |
-        scp -r . root@${{ secrets.VPS_IP }}:/home/root/my-nodejs-app
-
-    - name: Build and Run Docker Container on VPS
-      run: |
-        ssh root@${{ secrets.VPS_IP }} '
-          cd /home/root/my-nodejs-app &&
-          docker build -t my-nodejs-app . &&
-          docker stop $(docker ps -q) || true &&
-          docker rm $(docker ps -a -q) || true &&
-          docker run -d -p 5100:5100 my-nodejs-app
-        '
+      # Deploy to Kubernetes
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/your-deployment-name your-container-name=your-docker-repo/your-app-image-name:latest
