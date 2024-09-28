@@ -12,6 +12,6 @@ services:
      - reverse-proxy
      - --access-log
      - --from
-     - https://my-crazy-domain.com
+     - https://learning-docker.upayan.space
      - --to
      - http://backend:3000
