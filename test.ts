@@ -5,7 +5,7 @@ assert(Deno.args.length === 3, "Usage: deno run test.ts <image> <command> <args>
 while (true) {
     await delay(5000);
 
-    const response = new Deno.Command("docker", {
+    const response = new Deno.Command("/usr/bin/docker", {
         args: [
             "pull",
             Deno.args[ 0 ]
