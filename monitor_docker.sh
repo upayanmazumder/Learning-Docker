@@ -43,9 +43,17 @@ while true; do
 
         # Stop and remove the old container if it exists
         if [ $(docker ps -q -f name="$CONTAINER_NAME") ]; then
-            send_to_discord "Stopping Old Container" "Stopping and removing the old container..." 15158332 # Yellow
+            send_to_discord "Stopping Old Container" "Stopping the old container..." 15158332 # Yellow
             docker stop "$CONTAINER_NAME"
+            
+            # Wait for the container to fully stop before removing
+            while [ $(docker ps -q -f name="$CONTAINER_NAME") ]; do
+                sleep 1
+            done
+
+            send_to_discord "Removing Old Container" "Removing the old container..." 15158332 # Yellow
             docker rm "$CONTAINER_NAME"
+            
             send_to_discord "Old Container Removed" "Old container stopped and removed." 3066993 # Green
         fi
 
