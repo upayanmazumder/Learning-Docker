@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('LETS FUCKING GOOOO!');
+  res.send('ok this works');
 });
 
 app.listen(port, () => {
