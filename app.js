@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello from my VPS! Did docker! Also setup webhook! Also did the nohup thing! I have setup monitor_docker script.');
+  res.send('Hello from my VPS! Did docker! Also setup webhook! Also did the nohup thing! I have setup monitor_docker script. it might work now');
 });
 
 app.listen(port, () => {
