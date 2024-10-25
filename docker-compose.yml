@@ -1,6 +1,12 @@
 services:
+  caddy:
+    image: caddy
+    command: caddy reverse-proxy --from https://bots.upayan.space --to http://backend:3000
+    ports:
+     - 443:443
+     - 80:80
   backend:
     image: ghcr.io/upayanmazumder/learning-docker:latest
     build: .
     ports:
-      - 3000:3000
+     - 3000:3000
