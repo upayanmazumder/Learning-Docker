@@ -1,6 +1,6 @@
 services:
   backend:
-    image: upayanmazumder/learning-docker:latest
+    image: ghcr.io/upayanmazumder/learning-docker:latest
     build: .
     ports:
       - 3000:3000
