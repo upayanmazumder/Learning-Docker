@@ -1,5 +1,7 @@
 services:
   backend:
+    image: upayanmazumder/learning-docker:latest
     build: .
     ports:
       - 3000:3000
+    command: npm run api
